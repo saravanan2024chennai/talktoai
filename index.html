@@ -48,8 +48,8 @@
             document.getElementById('responseContainer').innerHTML = '';
 
             const url = 'https://api.groq.com/openai/v1/chat/completions';  // Correct Groq cloud endpoint
-            // const apiKey = '${GROQ_API_KEY}';  // Replace with your actual Groq API key
-            <!-- API_KEY_PLACEHOLDER -->
+            const apiKey = '__API_KEY__';  // Replace with your actual Groq API key
+            
             const data = {
                 model: 'llama-3.3-70b-versatile',  // Replace with the specific model you're using on Groq
                 messages: [{
