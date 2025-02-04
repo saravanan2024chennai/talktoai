@@ -3,7 +3,6 @@ name: Deploy static content to Pages
 on:
   push:
     branches: ["main"]
-    paths-ignore: ['**/pull/**'] # Optional: Prevent deployment on PRs
   workflow_dispatch:
 
 permissions:
@@ -24,14 +23,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build Static Site
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }} # If needed
-        run: npm run build  # Or yarn build, hugo, etc.  ADJUST THIS
+
+      # Step to inject API Key into index.html
+      - name: Inject API Key into index.html
+        run: |
+          # Replace a placeholder with the secret API key in the index.html file
+          sed -i 's|<!-- API_KEY_PLACEHOLDER -->|<script>const API_KEY = \"${{ secrets.API_KEY }}\";</script>|' ./index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Or 'public', 'build', etc. - ADJUST THIS TO YOUR BUILD OUTPUT DIRECTORY
+          path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
