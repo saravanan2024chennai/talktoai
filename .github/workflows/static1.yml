@@ -24,11 +24,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Step to inject API Key into index.html
-      - name: Inject API Key into index.html
+      # Step to append API Key directly in index.html inside <script> tag
+      - name: Append API Key to index.html
         run: |
-          # Replace a placeholder with the secret API key in the index.html file
-          sed -i 's|<!-- API_KEY_PLACEHOLDER -->|<script>const API_KEY = \"${{ secrets.API_KEY }}\";</script>|' ./index.html
+          echo '<script>const API_KEY = "${{ secrets.API_KEY }}";</script>' >> ./index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
