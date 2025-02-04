@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Replace API key placeholder with GitHub Secret
+      - name: Replace API key placeholder with GitHub  Secret
         run: |
           # Replace the placeholder `__API_KEY__` in the index.html with the actual API key from GitHub Secrets
           sed -i 's/__API_KEY__/${{ secrets.GROQ_API_KEY }}/g' index.html
