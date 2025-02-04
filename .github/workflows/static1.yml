@@ -1,50 +1,24 @@
-name: Deploy static content to Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Inject API Key
         run: |
           sed -i 's/YOUR_API_KEY_PLACEHOLDER/${{ secrets.API_KEY }}/g' index.html
 
-      # - name: Replace API key placeholder with GitHub  Secret
-      #   run: |
-      #     # Replace the placeholder `__API_KEY__` in the index.html with the actual API key from GitHub Secrets
-      #     sed -i 's/__API_KEY__/${{ secrets.GROQ_API_KEY }}/g' index.html
-      
-      # # Step to append API Key directly in index.html inside <script> tag
-      # - name: Append API Key to index.html
-      #   run: |
-      #     echo '<script>const API_KEY = "${{ secrets.API_KEY }}";</script>' >> ./index.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
