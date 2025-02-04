@@ -24,10 +24,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Step to append API Key directly in index.html inside <script> tag
-      - name: Append API Key to index.html
+      - name: Replace API key placeholder with GitHub Secret
         run: |
-          echo '<script>const API_KEY = "${{ secrets.API_KEY }}";</script>' >> ./index.html
+          # Replace the placeholder `__API_KEY__` in the index.html with the actual API key from GitHub Secrets
+          sed -i 's/__API_KEY__/${{ secrets.GROQ_API_KEY }}/g' index.html
+      
+      # # Step to append API Key directly in index.html inside <script> tag
+      # - name: Append API Key to index.html
+      #   run: |
+      #     echo '<script>const API_KEY = "${{ secrets.API_KEY }}";</script>' >> ./index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
