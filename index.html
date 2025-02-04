@@ -47,8 +47,8 @@
             document.getElementById('loadingContainer').style.display = 'block';
             document.getElementById('responseContainer').innerHTML = '';
 
-            const url = '${MODEL_URL}';  // Correct Groq cloud endpoint
-            const apiKey = '${API_KEY}';  // Replace with your actual Groq API key
+            const url = '${{secrets.MODEL_URL}}';  // Correct Groq cloud endpoint
+            const apiKey = '${ secrets.API_KEY}';  // Replace with your actual Groq API key
             const data = {
                 model: 'llama-3.3-70b-versatile',  // Replace with the specific model you're using on Groq
                 messages: [{
