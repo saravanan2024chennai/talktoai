@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up environment variables
+        run: echo "APP_API_KEY=${{ secrets.API_KEY }}" >> .env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to server
+        run: deploy-script.sh
