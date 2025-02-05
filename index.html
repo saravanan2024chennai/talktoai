@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1>Talk to  AI</h1>
+        <h1>Chat with AI</h1>
         <div id="chatContainer" class="form-group">
             <textarea id="promptInput" class="form-control" placeholder="Enter your prompt here..."></textarea>
             <button id="sendButton" class="btn btn-primary mt-2">Send</button>
@@ -34,52 +34,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        document.getElementById('sendButton').addEventListener('click', function() {
-            const prompt = document.getElementById('promptInput').value;
-
-            if (!prompt) {
-                alert('Please enter a  prompt.');
-                return;
-            }
-
-            document.getElementById('errorContainer').style.display = 'none';
-            document.getElementById('loadingContainer').style.display = 'block';
-            document.getElementById('responseContainer').innerHTML = '';
-
-            const url = 'https://api.groq.com/openai/v1/chat/completions';  // Correct Groq cloud endpoint
-            const apiKey = 'YOUR_API_KEY_PLACEHOLDER';  // Replace with your actual Groq API key
-      
-            
-            const data = {
-                model: 'llama-3.3-70b-versatile',  // Replace with the specific model you're using on Groq
-                messages: [{
-                    role: 'user',
-                    content: prompt
-                }],
-                temperature: 1,  // Optional, adjust as needed
-                max_completion_tokens: 1024,
-            };
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('loadingContainer').style.display = 'none';
-                document.getElementById('responseContainer').innerText = data.choices[0].message.content;
-            })
-            .catch(error => {
-                document.getElementById('loadingContainer').style.display = 'none';
-                document.getElementById('errorContainer').style.display = 'block';
-                console.error('Error:', error);
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
